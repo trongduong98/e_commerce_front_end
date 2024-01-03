@@ -1,0 +1,87 @@
+<div class="dialog-add-product-container">
+    <div class="dialog-header__title">
+        <h2 *ngIf="!dataDialog" mat-dialog-title>Create Product</h2>
+        <h2 *ngIf="dataDialog" mat-dialog-title>Update Product</h2>
+    </div>
+    <mat-dialog-content class="mat-typography">
+        <form [formGroup]=productForm class="add-dialog-body">
+            <div class="d-flex__center-space-between">
+                <mat-form-field class="w-40">
+                    <mat-label>Product name</mat-label>
+                    <input type="text" matInput formControlName="productName" placeholder="Name of product">
+                </mat-form-field>
+                <mat-form-field class="w-40">
+                    <mat-label>Product price</mat-label>
+                    <input type="number" matInput formControlName="productPrice" placeholder="200000">
+                </mat-form-field>
+            </div>
+            <div class="d-flex__center-space-between">
+                <mat-form-field class="w-40">
+                    <mat-label>Product Size</mat-label>
+                    <input type="text" matInput formControlName="productSize" placeholder="['Size S': 'Dưới 50kg', 'Size M': 'Dưới 55kg', 'Size L': 'Dưới 60kg']">
+                </mat-form-field>
+                <mat-form-field class="w-40">
+                    <mat-label>Product Color</mat-label>
+                    <input type="text" matInput formControlName="productColor" placeholder="['Đỏ', 'Xanh đen', 'Nâu']">
+                </mat-form-field>
+            </div>
+            <div class="d-flex__center-space-between">
+                <mat-form-field class="w-30">
+                    <mat-label>Product Total</mat-label>
+                    <input type="number" matInput formControlName="productTotal" placeholder="1000">
+                </mat-form-field>
+                <mat-form-field class="w-30">
+                    <mat-label>Product Group</mat-label>
+                    <mat-select formControlName="productGroupID" name="product_group_id">
+                        <mat-option [value]="group.product_group_id" *ngFor="let group of productGroup"> 
+                            {{group.product_group_name}}
+                         </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="w-30">
+                    <mat-label>Product Status</mat-label>
+                    <mat-select formControlName="productStatus" name="status">
+                        <mat-option [value]="status.id" *ngFor="let status of status"> 
+                            {{status.viewValue}}
+                         </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="d-flex__center-space-between">
+                <mat-form-field class="w-full">
+                    <mat-label>Product Description</mat-label>
+                    <textarea formControlName="productDescription" matInput placeholder="Ex. It makes me feel..."></textarea>
+                </mat-form-field>
+            </div>
+            <div class="d-flex__center-space-between mt-20">
+                <label for="image-thumbnail" class="w-20 product-thumbnail">
+                    <input id="image-thumbnail" type="file" (change)="handleReadAndShowImagePreview($event, 0)" hidden/>
+                    <div *ngIf="!imageThumbnailUrl" class="image-import">
+                        <img src="../../../../assets/icons/import.png">
+                    </div>
+                    <span *ngIf="!imageThumbnailUrl">Import thumbnail</span>
+                    <img *ngIf="imageThumbnailUrl" [src]="imageThumbnailUrl" class="image-preview">
+                </label>
+                <div class="w-60 product-images">
+                    <div class="product-images__items" *ngFor="let item of [1,2,3,4,5]">
+                        <label [for]="handleGenerateClass(item)">
+                            <input [id]="handleGenerateClass(item)" type="file" (change)="handleReadAndShowImagePreview($event, item)" hidden/>
+                            <div *ngIf="!handleCheckImagePreview(item)" class="image-import">
+                                <img src="../../../../assets/icons/import.png">
+                            </div>
+                            <span *ngIf="!handleCheckImagePreview(item)">Import image</span>
+                            <div class="images-preview">
+                                <img *ngIf="handleCheckImagePreview(item)" [src]="handleCheckImagePreview(item)">
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button *ngIf="!dataDialog" mat-button mat-dialog-close mat-raised-button color="primary" [disabled]="handleCheckValidate()" (click)="handleProduct(false)">Create</button>
+        <button *ngIf="dataDialog" mat-button mat-dialog-close mat-raised-button color="primary" [disabled]="handleCheckValidate()" (click)="handleProduct(true)">Update</button>
+    </mat-dialog-actions>    
+</div>

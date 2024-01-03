@@ -1,0 +1,31 @@
+<div class="login-container">
+    <form [formGroup]=loginInfo (ngSubmit)="handelLogin()" class="login">
+        <div class="login__avatar">
+            <div class="avatar">
+                <img src="../../../assets/image/avatar.png">
+            </div>
+        </div>
+        <div class="login__input">
+            <div class="login-form">
+                <div class="login-form__input-box" appearance="fill">
+                    <div>Email</div>
+                    <input type="email" name="email" formControlName="email" class="login-form__input" placeholder="Ex. pat@example.com">
+                </div>
+                <div class="login-form__input-box" appearance="fill">
+                    <div>Password</div>
+                    <input type="password" name="password" formControlName="password" class="login-form__input" placeholder="example01@">
+                </div>
+            </div>
+        </div>
+        <div class="login__button">
+            <div class="button-submit">
+                <button class="button-style" type="submit">
+                    <span>Login</span>
+                </button>
+            </div>
+        </div>
+        <div div class="login__social"> 
+            <span>Or Sign Up Using</span>
+        </div>
+    </form>
+</div>

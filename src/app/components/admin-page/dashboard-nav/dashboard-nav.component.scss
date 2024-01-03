@@ -1,0 +1,33 @@
+.nav-container {
+    position: fixed;
+    left: 0;
+    background-color: #212b36; 
+    height: 100%;
+    width: 260px;
+    .nav__title {
+        height: 59px;
+        border-bottom: 1px solid #ffffff;
+        font-weight: 600;
+        font-size: 30px;
+        color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center
+    }
+    .nav__menu {
+        height: calc(100% - 59px);
+        padding: 30px 20px;
+        .nav__menu-item {
+            width: 100%;
+            margin-top: 20px;
+            font-weight: 500;
+            font-size: 20px;
+            color: #ffffff;
+            text-align: left
+        }
+    }
+};
+
+.nav__menu-item:hover {
+    cursor: pointer;
+}

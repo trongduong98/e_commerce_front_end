@@ -1,0 +1,5 @@
+<div id="container">
+    <!-- <div class="notification"></div> -->
+    <app-loading-page *ngIf="loader.isLoading | async" class="container-loader"></app-loading-page>
+    <router-outlet></router-outlet>
+</div>

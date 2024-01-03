@@ -1,0 +1,31 @@
+* { 
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+}
+#container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.container-loader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+}
+
+// .notification {
+//     position: absolute;
+//     z-index: 11000;
+//     width: 300px;
+//     height: 100px;
+//     border: 1px solid gray;
+//     border-radius: 10px;
+//     background-color: antiquewhite;
+//     top: 20px;
+//     right: 10px;
+// }
