@@ -7,7 +7,9 @@
             <app-dashboard-nav></app-dashboard-nav>
         </div>
         <div class="content">
-            <app-dashboard-content></app-dashboard-content>
+            <app-dashboard-home *ngIf="loader.isPage.value == navHome"></app-dashboard-home>
+            <app-dashboard-product *ngIf="loader.isPage.value == navProduct"></app-dashboard-product>
+            <app-dashboard-product-group *ngIf="loader.isPage.value == navProductGroup"></app-dashboard-product-group>
         </div>
     </div>
 </div>

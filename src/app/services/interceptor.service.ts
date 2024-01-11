@@ -26,7 +26,7 @@ export class InterceptorService implements HttpInterceptor {
         if (urlLogin === Common.Constant.LOGIN) {
             const AuthRequest: any = req.clone({headers: headers});
             return next.handle(AuthRequest).pipe(
-                delay(1000),
+                delay(500),
                 finalize(() => {
                     this.loader.isLoading.next(false);
                 })
@@ -36,7 +36,7 @@ export class InterceptorService implements HttpInterceptor {
             if (token != null || token != undefined) {
                 const AuthRequest: any = req.clone({headers: headers.set(Common.Constant.AUTHORIZATION, token)});
                 return next.handle(AuthRequest).pipe(
-                    delay(1000),
+                    delay(500),
                     finalize(() => {
                         this.loader.isLoading.next(false);
                     })

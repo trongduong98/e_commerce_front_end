@@ -28,4 +28,8 @@ export class ProductsService {
     public updateProduct(params: any, productId: number): Observable<any> {
         return this.http.put<any>(`${this.apiUrl}/products/update-product/${productId}`, params);
     }
+
+    public deleteProduct(productId: number): Observable<any> {
+        return this.http.delete<any>(`${this.apiUrl}/products/delete-product/${productId}`);
+    }
 }

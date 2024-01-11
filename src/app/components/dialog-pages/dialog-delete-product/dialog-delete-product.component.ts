@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
     selector: 'app-dialog-delete-product',
@@ -9,14 +10,32 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class DialogDeleteProductComponent implements OnInit {
 
     public nameProduct!: string;
+    public imageThumbnail!: string;
 
-    constructor(@Inject(MAT_DIALOG_DATA) public dataDialog: any) { }
+    constructor(@Inject(MAT_DIALOG_DATA) public dataDialog: any, private product: ProductsService, public dialogRef: MatDialogRef<DialogDeleteProductComponent>) { }
 
     ngOnInit(): void {
-        console.log('this.dataDialog', this.dataDialog);
-        
         if(this.dataDialog) {
             this.nameProduct = this.dataDialog.name;
+            this.imageThumbnail = this.dataDialog.imageThumbnail;
+        }
+    }
+
+    public handleDeleteProduct() {
+        this.product.deleteProduct(this.dataDialog.id).subscribe((res) => {
+            console.log('res', res);
+            
+            if(res.result.id) {
+                this.handleCloseDialog(res.result.id);
+            }
+        })
+    }
+
+    public handleCloseDialog(value?: number) {
+        if (value) {
+            this.dialogRef.close({event: "success", value: value});
+        } else {
+            this.dialogRef.close({event: "close"});
         }
     }
 

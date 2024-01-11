@@ -80,8 +80,8 @@
         </form>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-        <button mat-button mat-dialog-close>Cancel</button>
-        <button *ngIf="!dataDialog" mat-button mat-dialog-close mat-raised-button color="primary" [disabled]="handleCheckValidate()" (click)="handleProduct(false)">Create</button>
-        <button *ngIf="dataDialog" mat-button mat-dialog-close mat-raised-button color="primary" [disabled]="handleCheckValidate()" (click)="handleProduct(true)">Update</button>
+        <button mat-button (click)="handleCloseDialog()">Cancel</button>
+        <button *ngIf="!dataDialog" mat-button mat-raised-button color="primary" [disabled]="handleCheckValidate()" (click)="handleProduct(false)">Create</button>
+        <button *ngIf="dataDialog" mat-button mat-raised-button color="primary" [disabled]="handleCheckValidate()" (click)="handleProduct(true)">Update</button>
     </mat-dialog-actions>    
 </div>

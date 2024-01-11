@@ -1,0 +1,14 @@
+.content-container {
+    position: absolute;
+    right: 0;
+    margin-top: 60px;
+    height: calc(100% -  60px);
+    width: calc(100% - 260px);
+    .content-container__overflow {
+        height: 200%;
+        overflow: auto;
+    }
+    .content-container__overflow::-webkit-scrollbar {
+        width: 0px;
+    }
+}

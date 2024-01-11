@@ -3,14 +3,23 @@
         <span>Dashboard</span>
     </div>
     <div class="nav__menu">
-        <div class="nav__menu-item">
-            <div>Admin Home</div>
+        <div class="nav__menu-item" (click)="handleSelectPage(navHome)">
+            <div [ngClass]="loader.isPage.value == navHome ? 'active_class' : 'unActive_class'">
+                <img src="../../../../assets/icons/home.png"/>
+                <span>Home</span>
+            </div>
         </div>
-        <div class="nav__menu-item">
-            <div>Admin product groups</div>
+        <div class="nav__menu-item" (click)="handleSelectPage(navProduct)">
+            <div [ngClass]="loader.isPage.value == navProduct ? 'active_class' : 'unActive_class'">
+                <img src="../../../../assets/icons/product.png"/>
+                <span>Products</span>
+            </div>
         </div>
-        <div class="nav__menu-item">
-            <div>Admin products</div>
+        <div class="nav__menu-item" (click)="handleSelectPage(navProductGroup)">
+            <div [ngClass]="loader.isPage.value == navProductGroup ? 'active_class' : 'unActive_class'">
+                <img src="../../../../assets/icons/grouping.png"/>
+                <span>Product groups</span>
+            </div>
         </div>
     </div>
 </div>

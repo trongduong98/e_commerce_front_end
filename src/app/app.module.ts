@@ -25,9 +25,11 @@ import { InterceptorService } from './services/interceptor.service';
 import { LoadingPageComponent } from './components/loading-page/loading-page.component';
 import { DashboardHeaderComponent } from './components/admin-page/dashboard-header/dashboard-header.component';
 import { DashboardNavComponent } from './components/admin-page/dashboard-nav/dashboard-nav.component';
-import { DashboardContentComponent } from './components/admin-page/dashboard-content/dashboard-content.component';
 import { DialogDeleteProductComponent } from './components/dialog-pages/dialog-delete-product/dialog-delete-product.component';
 import { DialogAddEditProductComponent } from './components/dialog-pages/dialog-add-edit-product/dialog-add-edit-product.component';
+import { DashboardHomeComponent } from './components/admin-page/dashboard-home/dashboard-home.component';
+import { DashboardProductGroupComponent } from './components/admin-page/dashboard-product-group/dashboard-product-group.component';
+import { DashboardProductComponent } from './components/admin-page/dashboard-product/dashboard-product.component';
 
 @NgModule({
   declarations: [
@@ -39,9 +41,11 @@ import { DialogAddEditProductComponent } from './components/dialog-pages/dialog-
     LoadingPageComponent,
     DashboardHeaderComponent,
     DashboardNavComponent,
-    DashboardContentComponent,
     DialogDeleteProductComponent,
     DialogAddEditProductComponent,
+    DashboardHomeComponent,
+    DashboardProductGroupComponent,
+    DashboardProductComponent,
   ],
   imports: [
     BrowserModule,

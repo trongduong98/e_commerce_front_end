@@ -17,11 +17,11 @@ export interface ProductElement {
 }
 
 @Component({
-  selector: 'app-dashboard-content',
-  templateUrl: './dashboard-content.component.html',
-  styleUrls: ['./dashboard-content.component.scss']
+    selector: 'app-dashboard-product',
+    templateUrl: './dashboard-product.component.html',
+    styleUrls: ['./dashboard-product.component.scss']
 })
-export class DashboardContentComponent implements AfterViewInit {
+export class DashboardProductComponent implements AfterViewInit {
 
     public displayedColumns: string[] = ['position', 'thumbnail', 'name', 'dateCreate', 'total', 'action'];
     public dataSource = new MatTableDataSource([]);
@@ -39,8 +39,9 @@ export class DashboardContentComponent implements AfterViewInit {
     }
 
     public handleGetProducts () {
+        this.dataSource = new MatTableDataSource([]);
+        let arrayTemp: any = [];
         this.product.getProductList().subscribe((data) => {
-            let array: any = [];
             if (data.result.length > 0) {
                 data.result.forEach((element: any, index: number) => {
                     if (element.product_date_created) {
@@ -50,44 +51,68 @@ export class DashboardContentComponent implements AfterViewInit {
                         element.product_image_thumbnail_value.data = Common.functions.convertBufferToBase64(element.product_image_thumbnail_value.data);
                         element.product_image_thumbnail_value.type = Common.constants.Constant.BASE64;
                     }
-                    array.push({position: index + 1,  ...element})
+                    arrayTemp.push({position: index + 1,  ...element});
+                    this.dataSource = new MatTableDataSource(arrayTemp);
                 });
             }
-            this.dataSource = new MatTableDataSource(array);
         });
+
     }
 
     public handleOpenAddEditProductDialog(edit: boolean, productId?: number) {
-        var dialogRef: any;
         if (!edit) {
-            dialogRef = this.dialog.open(DialogAddEditProductComponent, {
-                width: '80%' 
-            });
+            this.handleAddProduct();
         } else {
             if(productId) {
-                this.product.getProductById(productId).subscribe((response) => {
-                    dialogRef = this.dialog.open(DialogAddEditProductComponent, {
-                        data: response.result,
-                        width: '80%' 
-                    });
-                });
+                this.handleEditProduct(productId);
             }
         }
-        // dialogRef.afterClosed().subscribe((result: any) => {
-        //     console.log(`Dialog result: ${result}`); // Pizza!
-        // });
+    }
+
+    private handleAddProduct() {
+        const dialogRef = this.dialog.open(DialogAddEditProductComponent, {
+            width: '80%',
+            disableClose: true
+        });
+        dialogRef.afterClosed().subscribe((ref) => {
+            if (ref.value) {
+                this.handleGetProducts();
+            }
+        });
+    }
+
+    private handleEditProduct(productId: number) {
+        this.product.getProductById(productId).subscribe((response) => {
+            const dialogRef = this.dialog.open(DialogAddEditProductComponent, {
+                data: response.result,
+                width: '80%',
+                disableClose: true
+            });
+            dialogRef.afterClosed().subscribe((ref) => {
+                if (ref.value) {
+                    this.handleGetProducts();
+                }
+                
+            });
+        });
     }
 
     public handleOpenDeleteProductDialog(value: any) {
         const dialogRef = this.dialog.open(DialogDeleteProductComponent, {
             data: {
                 id: value.product_id,
-                name: value.product_name
+                name: value.product_name,
+                imageThumbnail: value.product_image_thumbnail_value.data,
             },
             width: '60%'
         });
-        dialogRef.afterClosed().subscribe((result: any) => {
-            console.log(`Dialog result: ${result}`); // Pizza!
+        dialogRef.afterClosed().subscribe((ref) => {
+            console.log(ref.value);
+            
+            if (ref.value) {
+                this.handleGetProducts();
+            }
         });
     }
+
 }

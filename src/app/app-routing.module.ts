@@ -11,7 +11,7 @@ const routes: Routes = [
     {path: '', component: LoginPageComponent},
     {path: 'login', component: LoginPageComponent},
     // router for client
-    {path: 'client', canActivate: [RoleGuard], canActivateChild: [AuthGuard],
+    {path: 'client',
         children: [
             {path: 'home_page', component: HomePageComponent},
             {path: 'about_page', component: AboutPageComponent},

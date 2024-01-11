@@ -3,7 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import * as Common from '../../../../assets/common/_index';
 import { ImagesService } from 'src/app/services/images.service';
 import { ProductsService } from 'src/app/services/products.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog-add-edit-product',
@@ -23,7 +23,7 @@ export class DialogAddEditProductComponent implements OnInit {
     public productGroup!: any;
     public productIdIsEdit!: number;
 
-    constructor(@Inject(MAT_DIALOG_DATA) public dataDialog: any, private images: ImagesService, private product: ProductsService) {}
+    constructor(@Inject(MAT_DIALOG_DATA) public dataDialog: any, private images: ImagesService, private product: ProductsService, public dialogRef: MatDialogRef<DialogAddEditProductComponent>) {}
 
     ngOnInit(): void {
         this.handleGetProductGroupName();
@@ -156,7 +156,7 @@ export class DialogAddEditProductComponent implements OnInit {
         reader.readAsDataURL(fileToUpload);
     }
 
-    private handleImages(edit: boolean, productId: number) {
+    private handleImages(isEdit: boolean, productId: number) {
         const params = {
             "product_id": productId,
             "product_image_name": `product_image_name_${productId}`,
@@ -167,13 +167,17 @@ export class DialogAddEditProductComponent implements OnInit {
             "product_image_value_4": this.imageUrl_4,
             "product_image_value_5": this.imageUrl_5
         }
-        if (edit) {
-            this.images.putImages(params, productId).subscribe((res) => {
-                console.log('putImages', res);
+        if (isEdit) {
+            this.images.putImages(params, productId).subscribe((response) => {
+                if(response.result.id) {
+                    this.handleImagesThumbnail(isEdit, response.result.id);
+                }
             });
         } else {
             this.images.postImages(params).subscribe((response) => {
-                console.log('response images', response);
+                if(response.result.id) {
+                    this.handleImagesThumbnail(isEdit, productId);
+                }
             });
         }
     }
@@ -186,18 +190,20 @@ export class DialogAddEditProductComponent implements OnInit {
             "product_image_thumbnail_value": this.imageThumbnailUrl
         }
         if (edit) {
-            this.images.putImageThumbnail(params, productId).subscribe((res) => {
-                console.log('putImageThumbnail', res);
+            this.images.putImageThumbnail(params, productId).subscribe((response) => {
+                console.log('putImageThumbnail', response);
+                this.handleCloseDialog(response.result.id);
             });
         } else {
             this.images.postImageThumbnail(params).subscribe((response) => {
                 console.log('response thumbnail', response);
+                this.handleCloseDialog(response.result.id);
             });
         }
     }
 
     public handleProduct(isEdit: boolean) {
-        const params: any = {
+        const productParams: any = {
             "product_name": this.productForm.value.productName,
             "product_description": this.productForm.value.productDescription,
             "product_price": this.productForm.value.productPrice,
@@ -208,19 +214,25 @@ export class DialogAddEditProductComponent implements OnInit {
             "product_status": this.productForm.value.productStatus
         }
         if (isEdit) {
-            this.product.updateProduct(params, this.productIdIsEdit).subscribe((res) => {
-                if (res.result.id) {
-                    this.handleImages(isEdit, res.result.id);
-                    this.handleImagesThumbnail(isEdit, res.result.id);
+            this.product.updateProduct(productParams, this.productIdIsEdit).subscribe((response) => {
+                if (response.result.id) {
+                    this.handleImages(isEdit, response.result.id);
                 }
             });
         } else {
-            this.product.createProduct(params).subscribe(async(response) => {
+            this.product.createProduct(productParams).subscribe(async(response) => {
                 if (response.result.id) {
                     this.handleImages(isEdit, response.result.id);
-                    this.handleImagesThumbnail(isEdit, response.result.id);
                 }
             });
+        }
+    }
+
+    public handleCloseDialog(value?: number) {
+        if (value) {
+            this.dialogRef.close({event: "success", value: value});
+        } else {
+            this.dialogRef.close({event: "close"});
         }
     }
 
